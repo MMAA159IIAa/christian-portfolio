@@ -21,7 +21,7 @@ const AudioPlayer = () => {
         <div className={styles.audioContainer}>
             <audio
                 ref={audioRef}
-                src="https://cdn.pixabay.com/audio/2022/03/10/audio_c36190696c.mp3" // Ambient Tech/Space Track
+                src="/mimetro.mp3.mp3"
                 loop
                 preload="auto"
             />
