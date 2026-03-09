@@ -1,0 +1,66 @@
+.workflow {
+    padding: 100px 0;
+    background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.03), transparent);
+}
+
+.sectionTitle {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--text-dim);
+    margin-bottom: 5rem;
+    font-size: 1.1rem;
+}
+
+.stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    position: relative;
+}
+
+.stepCard {
+    position: relative;
+}
+
+.stepHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stepId {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    opacity: 0.5;
+    font-family: var(--font-heading);
+}
+
+.line {
+    height: 2px;
+    background: var(--border-color);
+    flex-grow: 1;
+}
+
+.stepCard h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.stepCard p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .stepsGrid {
+        grid-template-columns: 1fr;
+    }
+}
