@@ -1,0 +1,100 @@
+.audioContainer {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 9999;
+}
+
+.audioButton {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 100px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-primary);
+}
+
+.audioButton:hover {
+    transform: scale(1.05);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+.playing {
+    border-color: var(--accent-secondary);
+    background: rgba(139, 92, 246, 0.1) !important;
+}
+
+.iconContainer {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.muteIcon {
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.playingBars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 14px;
+}
+
+.playingBars span {
+    width: 3px;
+    background: var(--accent-secondary);
+    border-radius: 10px;
+    animation: bounce 0.8s ease-in-out infinite;
+}
+
+.playingBars span:nth-child(2) {
+    animation-delay: 0.2s;
+    height: 100%;
+}
+
+.playingBars span:nth-child(1),
+.playingBars span:nth-child(3) {
+    height: 60%;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(1.8);
+    }
+}
+
+@media (max-width: 768px) {
+    .audioContainer {
+        bottom: 1rem;
+        left: 1rem;
+    }
+
+    .label {
+        display: none;
+    }
+
+    .audioButton {
+        padding: 0.75rem;
+    }
+}

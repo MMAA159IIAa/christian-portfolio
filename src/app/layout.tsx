@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
+import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
 
 export const metadata: Metadata = {
   title: "Arturo Valencia | AI Builder & Innovador Tecnológico",
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
+        <AudioPlayer />
         {children}
         <footer style={{ padding: '4rem 0', textAlign: 'center', borderTop: '1px solid var(--border-color)', color: 'var(--text-dim)', fontSize: '0.9rem' }}>
           <div className="container">
