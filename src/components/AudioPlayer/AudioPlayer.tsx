@@ -4,32 +4,25 @@ import styles from './AudioPlayer.module.css';
 
 const AudioPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [hasInteracted, setHasInteracted] = useState(false);
+    const [showIntro, setShowIntro] = useState(true);
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    useEffect(() => {
-        const startAudio = () => {
-            if (!hasInteracted && audioRef.current) {
-                audioRef.current.play()
-                    .then(() => {
-                        setIsPlaying(true);
-                        setHasInteracted(true);
-                        console.log("Autoplay successful");
-                    })
-                    .catch(() => {
-                        console.log("Autoplay blocked, waiting for more interactions");
-                    });
-            }
-        };
+    // Persist audio state across potential reloads if needed, 
+    // but for simple portfolio, we'll just handle the session.
 
-        // Listen for ANY interaction to trigger audio
-        const events = ['click', 'touchstart', 'scroll', 'keydown'];
-        events.forEach(event => window.addEventListener(event, startAudio, { once: true }));
-
-        return () => {
-            events.forEach(event => window.removeEventListener(event, startAudio));
-        };
-    }, [hasInteracted]);
+    const handleStartExperience = () => {
+        if (audioRef.current) {
+            audioRef.current.play()
+                .then(() => {
+                    setIsPlaying(true);
+                    setShowIntro(false);
+                })
+                .catch(err => {
+                    console.error("Playback failed:", err);
+                    setShowIntro(false); // Still hide even if it fails to not block user
+                });
+        }
+    };
 
     const togglePlay = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -42,42 +35,62 @@ const AudioPlayer = () => {
             audioRef.current.play().catch(err => console.error("Playback failed:", err));
         }
         setIsPlaying(!isPlaying);
-        setHasInteracted(true);
     };
 
     return (
-        <div className={`${styles.audioContainer} ${isPlaying ? styles.isPlaying : ''}`}>
-            <audio
-                ref={audioRef}
-                src="/mimetro.mp3.mp3"
-                loop
-                preload="auto"
-            />
-            <button
-                className={`${styles.audioButton} glass-effect`}
-                onClick={togglePlay}
-                title={isPlaying ? "Pausar mi melodía" : "Escuchar mi composición"}
-            >
-                <div className={styles.iconContainer}>
-                    {isPlaying ? (
-                        <div className={styles.playingBars}>
-                            <span></span>
-                            <span></span>
-                            <span></span>
+        <>
+            {showIntro && (
+                <div className={styles.introOverlay}>
+                    <div className={`${styles.introCard} glass-effect`}>
+                        <div className={styles.introContent}>
+                            <span className={styles.badge}>Experiencia Inmersiva</span>
+                            <h1>Explora el Futuro</h1>
+                            <p>Bienvenido al portafolio de <strong>Christian Arturo Estrada Valencia</strong>.</p>
+                            <div className={styles.attributionBox}>
+                                <span className={styles.composerLabel}>Música Original por:</span>
+                                <span className={styles.composerName}>Arturo Estrada</span>
+                            </div>
+                            <button className={styles.startButton} onClick={handleStartExperience}>
+                                ENTRAR A LA EXPERIENCIA
+                            </button>
                         </div>
-                    ) : (
-                        <span className={styles.muteIcon}>▶</span>
-                    )}
+                    </div>
                 </div>
-                <div className={styles.textContainer}>
-                    <span className={styles.statusLabel}>
-                        {isPlaying ? 'SONANDO AHORA' : 'REPRODUCIR MÚSICA'}
-                    </span>
-                    <span className={styles.titleLabel}>Composición Original</span>
-                    <span className={styles.authorLabel}>por Arturo Estrada</span>
-                </div>
-            </button>
-        </div>
+            )}
+
+            <div className={`${styles.audioContainer} ${isPlaying ? styles.isPlaying : ''}`}>
+                <audio
+                    ref={audioRef}
+                    src="/mimetro.mp3.mp3"
+                    loop
+                    preload="auto"
+                />
+                <button
+                    className={`${styles.audioButton} glass-effect`}
+                    onClick={togglePlay}
+                    title={isPlaying ? "Pausar mi melodía" : "Escuchar mi composición"}
+                >
+                    <div className={styles.iconContainer}>
+                        {isPlaying ? (
+                            <div className={styles.playingBars}>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        ) : (
+                            <span className={styles.muteIcon}>▶</span>
+                        )}
+                    </div>
+                    <div className={styles.textContainer}>
+                        <span className={styles.statusLabel}>
+                            {isPlaying ? 'SONANDO' : 'SILENCIO'}
+                        </span>
+                        <span className={styles.titleLabel}>Arturo Estrada</span>
+                        <span className={styles.subLabel}>Compositor</span>
+                    </div>
+                </button>
+            </div>
+        </>
     );
 };
 
