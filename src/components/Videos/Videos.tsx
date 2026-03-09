@@ -8,10 +8,10 @@ const videos = [
         description: 'Compartiendo mi visión y el inicio de este gran proyecto de comunicación y tecnología.'
     },
     {
-        title: 'Tecnología + Comunicación',
+        title: 'Innovación en Desarrollo',
         platform: 'YouTube',
-        embedId: 'dQw4w9WgXcQ', // Placeholder, user will replace when ready
-        description: 'Cómo la inteligencia artificial está potenciando la creación de contenido digital.'
+        embedId: 'RbmF7U-Ddvk',
+        description: 'Una muestra de cómo combinamos tecnología y comunicación en el mundo real.'
     }
 ];
 
@@ -20,7 +20,12 @@ const Videos = () => {
         <section id="videos" className={styles.videos}>
             <div className="container">
                 <h2 className={styles.sectionTitle}>Contenido en Video</h2>
-                <p className={styles.subtitle}>Compartiendo conocimientos sobre IA, automatización e innovación tecnológica.</p>
+                <div className={styles.betaBadge}>Versión Beta / Visualización</div>
+                <p className={styles.subtitle}>
+                    Compartiendo conocimientos sobre IA, automatización e innovación tecnológica.
+                    <br />
+                    <em>Nota: Estos videos son muestras para pruebas de visualización.</em>
+                </p>
 
                 <div className={styles.grid}>
                     {videos.map((video, index) => (
