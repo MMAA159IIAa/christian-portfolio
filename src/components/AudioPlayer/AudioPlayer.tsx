@@ -4,21 +4,49 @@ import styles from './AudioPlayer.module.css';
 
 const AudioPlayer = () => {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [hasInteracted, setHasInteracted] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
-    const togglePlay = () => {
+    useEffect(() => {
+        const startAudio = () => {
+            if (!hasInteracted && audioRef.current) {
+                audioRef.current.play()
+                    .then(() => {
+                        setIsPlaying(true);
+                        setHasInteracted(true);
+                        console.log("Autoplay successful");
+                    })
+                    .catch(() => {
+                        console.log("Autoplay blocked, waiting for more interactions");
+                    });
+            }
+        };
+
+        // Listen for ANY interaction to trigger audio
+        const events = ['click', 'touchstart', 'scroll', 'keydown'];
+        events.forEach(event => window.addEventListener(event, startAudio, { once: true }));
+
+        return () => {
+            events.forEach(event => window.removeEventListener(event, startAudio));
+        };
+    }, [hasInteracted]);
+
+    const togglePlay = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (!audioRef.current) return;
 
         if (isPlaying) {
             audioRef.current.pause();
         } else {
-            audioRef.current.play().catch(err => console.log("Autoplay blocked or error:", err));
+            audioRef.current.play().catch(err => console.error("Playback failed:", err));
         }
         setIsPlaying(!isPlaying);
+        setHasInteracted(true);
     };
 
     return (
-        <div className={styles.audioContainer}>
+        <div className={`${styles.audioContainer} ${isPlaying ? styles.isPlaying : ''}`}>
             <audio
                 ref={audioRef}
                 src="/mimetro.mp3.mp3"
@@ -26,9 +54,9 @@ const AudioPlayer = () => {
                 preload="auto"
             />
             <button
-                className={`${styles.audioButton} ${isPlaying ? styles.playing : ''} glass-effect`}
+                className={`${styles.audioButton} glass-effect`}
                 onClick={togglePlay}
-                title={isPlaying ? "Pausar música" : "Reproducir música ambiental"}
+                title={isPlaying ? "Pausar mi melodía" : "Escuchar mi composición"}
             >
                 <div className={styles.iconContainer}>
                     {isPlaying ? (
@@ -38,12 +66,16 @@ const AudioPlayer = () => {
                             <span></span>
                         </div>
                     ) : (
-                        <span className={styles.muteIcon}>♪</span>
+                        <span className={styles.muteIcon}>▶</span>
                     )}
                 </div>
-                <span className={styles.label}>
-                    {isPlaying ? 'Ambiente ON' : 'Música'}
-                </span>
+                <div className={styles.textContainer}>
+                    <span className={styles.statusLabel}>
+                        {isPlaying ? 'SONANDO AHORA' : 'REPRODUCIR MÚSICA'}
+                    </span>
+                    <span className={styles.titleLabel}>Composición Original</span>
+                    <span className={styles.authorLabel}>por Arturo Estrada</span>
+                </div>
             </button>
         </div>
     );
