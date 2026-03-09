@@ -2,16 +2,16 @@ import styles from './Videos.module.css';
 
 const videos = [
     {
-        title: 'Automatización con AI Builder',
-        platform: 'YouTube',
-        embedId: 'dQw4w9WgXcQ', // Placeholder, user will replace with real IDs
-        description: 'Explorando cómo automatizar procesos complejos usando IA.'
+        title: 'Desde Hermosillo Para El Mundo - Mi Historia',
+        platform: 'TikTok',
+        embedId: '7515950139605830920',
+        description: 'Compartiendo mi visión y el inicio de este gran proyecto de comunicación y tecnología.'
     },
     {
-        title: 'Rapid Prototyping en Acción',
-        platform: 'TikTok',
-        embedId: 'example-tiktok-id',
-        description: 'De 0 a producto funcional en tiempo récord.'
+        title: 'Tecnología + Comunicación',
+        platform: 'YouTube',
+        embedId: 'dQw4w9WgXcQ', // Placeholder, user will replace when ready
+        description: 'Cómo la inteligencia artificial está potenciando la creación de contenido digital.'
     }
 ];
 
@@ -26,17 +26,25 @@ const Videos = () => {
                     {videos.map((video, index) => (
                         <div key={index} className={`${styles.videoCard} glass-effect`}>
                             <div className={styles.videoWrapper}>
-                                {/* Simplified embed placeholder - user can put actual iframe here */}
-                                <div className={styles.placeholder}>
-                                    <span>Reproductor de {video.platform}</span>
-                                </div>
+                                {video.platform === 'TikTok' ? (
+                                    <iframe
+                                        src={`https://www.tiktok.com/embed/v2/${video.embedId}`}
+                                        className={styles.iframe}
+                                        allowFullScreen
+                                        allow="autoplay; encrypted-media"
+                                    ></iframe>
+                                ) : (
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${video.embedId}`}
+                                        className={styles.iframe}
+                                        allowFullScreen
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    ></iframe>
+                                )}
                             </div>
                             <div className={styles.content}>
                                 <h3>{video.title}</h3>
                                 <p>{video.description}</p>
-                                <div className={styles.shareActions}>
-                                    <button className={styles.shareBtn}>Compartir</button>
-                                </div>
                             </div>
                         </div>
                     ))}
